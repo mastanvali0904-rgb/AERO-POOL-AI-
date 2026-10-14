@@ -1,0 +1,238 @@
+/* ==========================================================================
+   Header & Scenario Simulator Bar Styles
+   ========================================================================== */
+
+/* Top Navigation Header */
+.app-header {
+  height: var(--header-height);
+  background: rgba(10, 15, 29, 0.88);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+/* Brand / Logo */
+.brand-group {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.brand-icon-box {
+  width: 42px;
+  height: 42px;
+  background: linear-gradient(135deg, rgba(0, 229, 255, 0.15) 0%, rgba(168, 85, 247, 0.2) 100%);
+  border: 1px solid rgba(0, 229, 255, 0.4);
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-neon-cyan);
+}
+
+.brand-icon-box svg {
+  width: 24px;
+  height: 24px;
+  color: var(--cyan-primary);
+}
+
+.brand-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.brand-title {
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  background: linear-gradient(135deg, #ffffff 0%, #38bdf8 50%, #00e5ff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.brand-subtitle {
+  font-size: 11px;
+  color: #94a3b8;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+/* View Switcher Controls */
+.view-switcher-group {
+  display: flex;
+  align-items: center;
+  background: rgba(15, 23, 42, 0.8);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-full);
+  padding: 4px;
+  gap: 4px;
+}
+
+.view-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #94a3b8;
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.view-btn:hover {
+  color: #f8fafc;
+}
+
+.view-btn.active {
+  background: linear-gradient(135deg, rgba(0, 229, 255, 0.2) 0%, rgba(37, 99, 235, 0.25) 100%);
+  color: #ffffff;
+  border: 1px solid rgba(0, 229, 255, 0.45);
+  box-shadow: 0 0 12px rgba(0, 229, 255, 0.2);
+}
+
+/* Airport Preset Switcher */
+.airport-presets-group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.airport-chip {
+  padding: 6px 12px;
+  font-size: 11px;
+  font-weight: 700;
+  font-family: var(--font-mono);
+  color: #94a3b8;
+  background: rgba(30, 41, 59, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.airport-chip:hover {
+  color: #f8fafc;
+  border-color: rgba(56, 189, 248, 0.3);
+}
+
+.airport-chip.active {
+  background: rgba(0, 229, 255, 0.15);
+  color: var(--cyan-primary);
+  border-color: var(--cyan-primary);
+  box-shadow: 0 0 10px rgba(0, 229, 255, 0.25);
+}
+
+/* Header Action Right */
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.ai-status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  border-radius: var(--radius-full);
+  font-size: 11px;
+  font-weight: 600;
+  background: rgba(168, 85, 247, 0.1);
+  border: 1px solid rgba(168, 85, 247, 0.3);
+  color: #d8b4fe;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.ai-status-pill:hover {
+  background: rgba(168, 85, 247, 0.2);
+  border-color: var(--purple-ai);
+}
+
+/* Scenario Simulator Bar (Instant Judge Testing) */
+.scenario-bar {
+  min-height: var(--scenario-bar-height);
+  background: rgba(8, 13, 25, 0.95);
+  border-bottom: 1px solid var(--border-subtle);
+  display: flex;
+  align-items: center;
+  padding: 6px 20px;
+  gap: 14px;
+  overflow-x: auto;
+  white-space: nowrap;
+  z-index: 90;
+}
+
+.scenario-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--cyan-primary);
+  flex-shrink: 0;
+}
+
+.scenario-chips-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+}
+
+.scenario-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  border-radius: var(--radius-full);
+  background: rgba(20, 30, 55, 0.8);
+  border: 1px solid var(--border-subtle);
+  color: #cbd5e1;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  flex-shrink: 0;
+}
+
+.scenario-btn:hover {
+  background: rgba(30, 48, 85, 0.95);
+  border-color: var(--border-active);
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+
+.scenario-btn.active {
+  background: linear-gradient(135deg, rgba(0, 229, 255, 0.2) 0%, rgba(16, 185, 129, 0.2) 100%);
+  border-color: var(--cyan-primary);
+  color: #ffffff;
+  box-shadow: 0 0 14px rgba(0, 229, 255, 0.3);
+}
+
+.scenario-btn.active.scenario-overflow {
+  background: linear-gradient(135deg, rgba(244, 63, 94, 0.2) 0%, rgba(245, 158, 11, 0.2) 100%);
+  border-color: var(--rose-danger);
+  box-shadow: 0 0 14px rgba(244, 63, 94, 0.35);
+}
+
+.scenario-btn .scenario-icon {
+  font-size: 14px;
+}

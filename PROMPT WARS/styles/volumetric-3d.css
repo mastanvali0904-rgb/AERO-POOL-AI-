@@ -1,0 +1,368 @@
+/* ==========================================================================
+   Centerpiece #1: Interactive 3D/SVG Volumetric Trunk Visualizer
+   ========================================================================== */
+
+.volumetric-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px;
+}
+
+.volumetric-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.volumetric-title-area {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.volumetric-icon {
+  width: 36px;
+  height: 36px;
+  background: rgba(168, 85, 247, 0.15);
+  border: 1px solid rgba(168, 85, 247, 0.4);
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--purple-ai);
+}
+
+.volumetric-title-text h3 {
+  font-size: 15px;
+  font-weight: 700;
+  color: #f8fafc;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.volumetric-title-text p {
+  font-size: 11px;
+  color: #94a3b8;
+}
+
+/* Vehicle Mode Switcher inside Trunk Card */
+.vehicle-selector-tabs {
+  display: flex;
+  background: rgba(15, 23, 42, 0.8);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 3px;
+  gap: 4px;
+}
+
+.vehicle-tab {
+  padding: 6px 12px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #94a3b8;
+  background: transparent;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.vehicle-tab:hover {
+  color: #f1f5f9;
+}
+
+.vehicle-tab.active {
+  background: rgba(0, 229, 255, 0.18);
+  color: var(--cyan-primary);
+  border: 1px solid rgba(0, 229, 255, 0.35);
+}
+
+.vehicle-tab.active.tab-cng {
+  background: rgba(244, 63, 94, 0.18);
+  color: var(--rose-danger);
+  border-color: rgba(244, 63, 94, 0.35);
+}
+
+/* Trunk Stage Container */
+.trunk-stage-grid {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 20px;
+  min-height: 340px;
+}
+
+@media (max-width: 1024px) {
+  .trunk-stage-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* 3D Trunk Canvas / SVG Cavity View */
+.trunk-cavity-container {
+  background: radial-gradient(circle at 50% 40%, rgba(15, 23, 42, 0.9) 0%, rgba(6, 9, 19, 0.95) 100%);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.8);
+}
+
+.trunk-cavity-container.status-overflow {
+  border-color: var(--rose-danger);
+  box-shadow: inset 0 0 40px rgba(244, 63, 94, 0.2), 0 0 20px rgba(244, 63, 94, 0.25);
+  animation: overflow-pulse 2s infinite ease-in-out;
+}
+
+@keyframes overflow-pulse {
+  0%, 100% { border-color: rgba(244, 63, 94, 0.5); }
+  50% { border-color: var(--rose-danger); }
+}
+
+.trunk-badge-overlay {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  display: flex;
+  gap: 8px;
+  z-index: 5;
+}
+
+.trunk-overflow-banner {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  z-index: 5;
+  background: rgba(244, 63, 94, 0.9);
+  color: #ffffff;
+  padding: 4px 12px;
+  border-radius: var(--radius-sm);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  display: none;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 0 15px rgba(244, 63, 94, 0.6);
+}
+
+.trunk-cavity-container.status-overflow .trunk-overflow-banner {
+  display: inline-flex;
+}
+
+/* SVG 3D Canvas Area */
+.trunk-svg-wrapper {
+  flex: 1;
+  width: 100%;
+  min-height: 240px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.trunk-svg-wrapper svg {
+  width: 100%;
+  height: 100%;
+  max-height: 280px;
+}
+
+/* Telemetry Gauge Bar */
+.volumetric-gauge-area {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.gauge-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+}
+
+.gauge-track {
+  height: 10px;
+  background: rgba(30, 41, 59, 0.7);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+  position: relative;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.gauge-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #10b981 0%, #00e5ff 70%, #f59e0b 95%);
+  border-radius: var(--radius-full);
+  transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1), background 0.4s ease;
+  position: relative;
+}
+
+.gauge-fill.fill-overflow {
+  background: linear-gradient(90deg, #f59e0b 0%, #f43f5e 100%);
+}
+
+.gauge-marker-cng {
+  position: absolute;
+  left: 36%; /* 180L / 500L = 36% */
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--rose-danger);
+  z-index: 2;
+}
+
+.gauge-marker-cng::after {
+  content: 'CNG 180L';
+  position: absolute;
+  top: -16px;
+  left: -20px;
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--rose-danger);
+  white-space: nowrap;
+}
+
+/* Luggage Controls & Manifest Sidebar */
+.luggage-sidebar-card {
+  background: rgba(12, 19, 36, 0.7);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.sidebar-section-title {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #94a3b8;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Luggage Quick Action Buttons */
+.luggage-btn-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.luggage-add-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 8px 10px;
+  background: rgba(30, 41, 59, 0.5);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  color: #f1f5f9;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  text-align: left;
+}
+
+.luggage-add-btn:hover {
+  background: rgba(45, 62, 90, 0.7);
+  border-color: var(--cyan-primary);
+  transform: translateY(-1px);
+}
+
+.luggage-add-btn .btn-title {
+  font-size: 11px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.luggage-add-btn .btn-sub {
+  font-size: 10px;
+  color: #94a3b8;
+}
+
+.btn-ai-scan {
+  grid-column: span 2;
+  background: linear-gradient(135deg, rgba(168, 85, 247, 0.2) 0%, rgba(37, 99, 235, 0.25) 100%);
+  border-color: rgba(168, 85, 247, 0.4);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px;
+}
+
+.btn-ai-scan:hover {
+  background: linear-gradient(135deg, rgba(168, 85, 247, 0.35) 0%, rgba(37, 99, 235, 0.4) 100%);
+  box-shadow: var(--shadow-neon-purple);
+}
+
+/* Luggage Manifest Item List */
+.luggage-manifest-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-height: 180px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.manifest-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 10px;
+  background: rgba(20, 29, 50, 0.6);
+  border-radius: 6px;
+  border-left: 3px solid var(--rider-1);
+  font-size: 11px;
+  transition: all var(--transition-fast);
+}
+
+.manifest-item.rider-1 { border-left-color: var(--rider-1); }
+.manifest-item.rider-2 { border-left-color: var(--rider-2); }
+.manifest-item.rider-3 { border-left-color: var(--rider-3); }
+.manifest-item.rider-4 { border-left-color: var(--rider-4); }
+
+.manifest-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.manifest-name {
+  font-weight: 600;
+  color: #f1f5f9;
+}
+
+.manifest-specs {
+  font-size: 10px;
+  color: #94a3b8;
+}
+
+.manifest-delete-btn {
+  background: none;
+  border: none;
+  color: #64748b;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.manifest-delete-btn:hover {
+  color: var(--rose-danger);
+  background: rgba(244, 63, 94, 0.15);
+}
